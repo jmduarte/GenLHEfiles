@@ -52,7 +52,7 @@ def process_lhe(infilename, outfilename, masses, decay_info, nevents, modeltag):
         newline = line
         if "MASS" in lastblock:
             for particle,mass in masses.iteritems():
-                if particle in line:
+                if str(particle) in line:
                     newline = "      %s     %s       # \n" % (particle, mass)
         if "DECAY" in line and decay_info != "":
             # check the particles in decay_info
@@ -110,7 +110,7 @@ def process_lhe_with_slha(infilename, outfilename, slha, masses, nevents, modelt
         newline = line
         if "MASS" in lastblock:
             for particle,mass in masses.iteritems():
-                if particle in line:
+                if str(particle) in line:
                     newline = "      %s     %s       # \n" % (particle, mass)
         slha_new_list.append(newline)
     slha_new = "".join(slha_new_list)
@@ -155,6 +155,17 @@ def get_decay_dict():
         "LSP_stable" : "DECAY  1000022  0.0\n",
         "T1tttt" : "DECAY  1000021  1.0 \n   1.0  3  1000022 6 -6     # ~g -> ~chi_10 t tbar \n",
         "T1bbbb" : "DECAY  1000021  1.0 \n   1.0  3  1000022 5 -5     # ~g -> ~chi_10 b bbar \n",
+        "T1ttbb" : ("DECAY  1000021  1.0 \n" +
+                    "   0.25  3  1000024 5 -6     # ~g -> ~chi_1+ b  tbar \n" +
+                    "   0.25  3  -1000024 -5 6    # ~g -> ~chi_1- t  bbar \n" +
+                    "   0.25  3  1000022 -5 5     # ~g -> ~chi_10 b bbar \n" +
+                    "   0.25  3  1000022 6 -6     # ~g -> ~chi_10 t tbar \n" +
+                    "DECAY  1000024  0.1 \n" +
+                    "   3.51024479E-01  3  1000022 2 -1     # ~chi_1+ -> ~chi_10 u dbar \n" +
+                    "   3.51024479E-01  3  1000022 4 -3     # ~chi_1+ -> ~chi_10 c sbar \n" +
+                    "   1.17008160E-01  3  1000022 -11 12   # ~chi_1+ -> ~chi_10 e+ nu_e \n" +
+                    "   1.17008160E-01  3  1000022 -13 14   # ~chi_1+ -> ~chi_10 mu+ nu_mu \n" +
+                    "   6.39347234E-02  3  1000022 -15 16   # ~chi_1+ -> ~chi_10 tau+ nu_tau \n"),
         "T1qqqq" : ("DECAY  1000021  1.0 \n   0.25  3  1000022 1 -1     # ~g -> ~chi_10 d dbar \n" + 
                     "   0.25  3  1000022 2 -2     # ~g -> ~chi_10 u ubar \n"+ 
                     "   0.25  3  1000022 3 -3     # ~g -> ~chi_10 s sbar \n"+ 
